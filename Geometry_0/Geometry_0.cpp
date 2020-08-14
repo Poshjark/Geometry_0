@@ -110,7 +110,7 @@ public:
     Point* get_points() {
         return points;
     }
-    void rotate(Point rotation_center);
+    void rotate(Point rotation_center, double angle);
 };
 
 class Circle {
@@ -271,43 +271,26 @@ bool crossing_point(Line first, Line second, Point* crossPoint) {
     return false;
 }
 
-void Object::rotate(Point rotation_center) {
+void Object::rotate(Point rotation_center, double rotation_angle) {
     for (int i = 0; i < point_number; i++) {
         Line temp_line = Line(&points[i], &rotation_center);
-        Circle temp_circle = Circle(temp_line.get_length(), rotation_center);
+        Circle temp_circle = Circle(temp_line.get_length());
         Point cross;
+        double k = temp_line.coeffK();
+        double b = temp_line.coeffB();
+        double angle = temp_line.get_angle('DEG');
         
     }
 }
 
 int main()
 {
-
-    Point *start = new Point();
-    Point *end = new Point(10,10);
-    Line a = Line(start, end);
-    Line b = Line(&Point(0,1), &Point(1, 2));
-    a.reverse();
-    cout << a.getStart().getCoordX()<< '\t'<< a.getStart().getCoordY() << endl;
-    cout << a.get_angle() << endl;
-    Point cross;
-    Point *cross_ptr;
-    cross_ptr = &cross;
-    if (crossing_point(a, b, cross_ptr)) {
-        cout << cross_ptr->getCoordX() << '\t' << cross_ptr->getCoordY() << endl;
+    Point start = Point(-10,20);
+    for (int i = 0; i < 90; i++) {
+        Point end = Point(1, i);
+        Line line = Line(&start, &end);
+        cout << "When k = " << line.coeffK() << " angle = " << line.get_angle('DEG')
+            << "\tk/angle = " << line.coeffK()/line.get_angle() << endl;
     }
-    else {
-        cout << "No crossing points! between lines!" << endl;
-    }
-    double ss = 1 - 10;
-    Rectangle rect = Rectangle(10, 9);
-    for (int i = 0; i < 4; i++) {
-        cout << rect.get_points()[i].getCoordX() << 
-            '\t' << rect.get_points()[i].getCoordY() << endl;
-
-    }
-    cout << rect.name << endl;
-    Object asd = Object(Point(1,2), Point(1,22));
-    cout << asd.name << endl;
     return 0;
 }
